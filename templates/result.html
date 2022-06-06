@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Equisized Synonyms: {{", ".join(words)}}</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    </head>
+    <body>
+        <table class="results" width="200" cellpadding="3" cellspacing="1">
+            <tr>
+                {% for word in words %}
+                <th class="header">{{word}}</th>
+                {% endfor %}
+            </tr>
+
+            {% for key in keys %}
+            <tr>
+                {% for word in words %} {% if key in synonyms_table[word] %}
+                <td>{{', '.join(synonyms_table[word][key])}}</td>
+                {% else %}
+                <td style="color: #56b6c2;">x</td>
+                {% endif %} {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+
+        <br />
+        <br />
+        <br />
+        <div class="credits">
+        Results courtesy of <a href="https://thesaurus.com" style="color: #5c6370;"
+            >thesaurus.com</a
+        ></div>
+    </body>
+</html>
+

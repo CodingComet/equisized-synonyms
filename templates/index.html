@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Equisized Synonyms</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+        <script>
+
+            function redirect() {
+                let words = document.getElementById("words").value;
+                let disable_spaces = document.getElementById("disable_spaces").checked;
+                let hide_partial_rows = document.getElementById("hide_partial_rows").checked;
+
+
+                window.location.href = `/synonyms/${words}?disable_spaces=${disable_spaces}&hide_partial_rows=${hide_partial_rows}`;
+            }
+
+            function clickPress(event) {
+                if (event.keyCode == 13) {
+                    redirect();
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <h1 class="header">Equisized Synonyms</h1>
+        <p class="header">Words separated by spaces:</p>
+
+        <form action=""></form>
+        <input type="text" id="words" onkeypress="clickPress(event)" />
+        <button >Done</button><br>
+        
+        <p class="header">Hide partial rows<input id="hide_partial_rows" type="checkbox" checked></p>
+        <p class="header">Disable spaces and dashes<input id="disable_spaces" type="checkbox" checked></p>
+
+    </body>
+</html>
