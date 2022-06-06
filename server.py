@@ -2,6 +2,7 @@ from itertools import groupby
 from collections import Counter
 from typing import List
 from flask import Flask, render_template, request, url_for
+import os
 
 from thesaurus import Thesaurus
 
@@ -60,4 +61,4 @@ def synonyms(words):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
