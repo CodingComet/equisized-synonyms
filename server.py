@@ -36,11 +36,11 @@ def result(words: str):
     sorted_synonyms = {word: get_sorted_synonyms(word, include_spaces) for word in words}
 
     # get abbreviations for each single synonyms of each word
-    abbreviations = {word: sorted(
-        list({abbr for synonym in sorted_synonyms[word] for abbr in abbreviations_.get(synonym)}
-             ), key=lambda abbr: (len(abbr), abbr))
-        for word in words}
-    print(abbreviations)
+    # abbreviations = {word: sorted(
+    #     list({abbr for synonym in sorted_synonyms[word] for abbr in abbreviations_.get(synonym)}
+    #          ), key=lambda abbr: (len(abbr), abbr))
+    #     for word in words}
+    # print(abbreviations)
 
     # sort synonyms by length groups for table
     keys = []  # keeps different lengths for table and partial rows feature

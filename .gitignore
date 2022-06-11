@@ -3,3 +3,4 @@ venv/
 abbr.cache.pkl
 synonym.cache.pkl
 .idea/
+playground.py
