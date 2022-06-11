@@ -9,13 +9,14 @@ thesaurus_ = Thesaurus()
 abbreviations_ = Abbreviations()
 
 
-def get_sorted_synonyms(word: str, include_spaces: bool = True):
+def get_synonyms(word: str, include_spaces: bool = True):
     synonyms = thesaurus_.get(word)
 
     if not include_spaces:
-        synonyms = filter(lambda x: not (' ' in x or '-' in x), synonyms)  # remove all synonyms with spaces or dashe
+        synonyms = list(
+            filter(lambda x: not (' ' in x or '-' in x), synonyms))  # remove all synonyms with spaces or dashe
 
-    return sorted(synonyms, key=lambda synonym: (len(synonym), synonym))
+    return synonyms
 
 
 app = Flask(__name__, template_folder="./templates")
@@ -33,17 +34,23 @@ def result(words: str):
     include_partial_rows: bool = request.args.get('hide_partial_rows') == 'false'
 
     # get synonyms
-    sorted_synonyms = {word: get_sorted_synonyms(word, include_spaces) for word in words}
+    sorted_synonyms = {word: get_synonyms(word, include_spaces) for word in words}
 
     # get abbreviations for each single synonyms of each word
-    # abbreviations = {word: sorted(
-    #     list({abbr for synonym in sorted_synonyms[word] for abbr in abbreviations_.get(synonym)}
-    #          ), key=lambda abbr: (len(abbr), abbr))
-    #     for word in words}
-    # print(abbreviations)
+    abbreviations = {word: sorted(
+        list({abbr for synonym in sorted_synonyms[word] for abbr in abbreviations_.get(synonym)}
+             ), key=lambda abbr: (len(abbr), abbr))
+        for word in words}
+
+    # merge sorted_synonyms with abbreviations
+    # sorted_synonyms = sorted()
+
+    sorted_synonyms = {word: sorted(sorted_synonyms[word] + abbreviations[word], key=lambda x: (len(x), x))
+                       for word in words}
 
     # sort synonyms by length groups for table
     keys = []  # keeps different lengths for table and partial rows feature
+
 
     def append_key(item: object):
         keys.append(item)
@@ -59,10 +66,12 @@ def result(words: str):
     return render_template('result.html',
                            words=words,
                            synonyms_table=synonyms_table,
+                           abbreviations_table=abbreviations,
                            keys=sorted(list(dict.fromkeys(keys))),
                            include_partial_rows=include_partial_rows,
                            include_spaces=include_spaces,
                            )
+
 
 
 if __name__ == '__main__':

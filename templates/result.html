@@ -12,7 +12,7 @@
     <script src="{{ url_for('static', filename='javascript/functions.js') }}"></script>
 </head>
 <body>
-<table class="results" width="200" cellpadding="3" cellspacing="1">
+<table class="results">
     <tr>
         <td class="header">#</td>
 
@@ -24,11 +24,19 @@
     {% for key in keys %}
         <tr>
             <td>{{ key }}</td>
-            {% for word in words %} {% if key in synonyms_table[word] %}
-                <td>{{ ', '.join(synonyms_table[word][key]) }}</td>
-            {% else %}
-                <td style="color: #56b6c2">x</td>
-            {% endif %} {% endfor %}
+            {% for word in words %}
+                {% if key in synonyms_table[word] %}
+                    <td>
+                        {% for synonym in synonyms_table[word][key] %}
+                            {% if synonym in abbreviations_table[word] %}
+                                <label class="abbreviation">{{ synonym }}</label>{% else %}
+                                {{ synonym }}{% endif %}{% if synonyms_table[word][key]|length - 1 > synonyms_table[word][key].index(synonym) %},{% endif %}
+                        {% endfor %}
+                    </td>
+                {% else %}
+                    <td style="color: #56b6c2">x</td>
+                {% endif %}
+            {% endfor %}
         </tr>
     {% endfor %}
 </table>

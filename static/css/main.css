@@ -19,6 +19,7 @@ body {
     font-size: 18px;
     color: var(--variable);
     font-family: monospace;
+    width: 10%;
 }
 
 table,
@@ -26,6 +27,10 @@ th,
 td {
     vertical-align: top;
     border: 1px solid var(--foreground);
+}
+
+.abbreviation {
+    color: #e06c75;
 }
 
 .credits {
