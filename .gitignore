@@ -1,2 +1,5 @@
 __pycache__/
 venv/
+abbr.cache.pkl
+synonym.cache.pkl
+.idea/
