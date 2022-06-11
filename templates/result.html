@@ -30,9 +30,7 @@
                         {% for synonym in synonyms_table[word][key] %}
                             {% if synonym in abbreviations_table[word] %}
                                 <label class="abbreviation">{{ synonym }}</label>{% else %}
-                                {{ synonym }}{% endif %}
-                        {% if synonyms_table[word][key]|length - 1 > synonyms_table[word][key].index(synonym) %},
-                        {% endif %}
+                                {{ synonym }}{% endif %}{% if synonyms_table[word][key]|length - 1 > synonyms_table[word][key].index(synonym) %},{% endif %}
                         {% endfor %}
                     </td>
                 {% else %}
@@ -104,13 +102,13 @@
 </p>
 
 <div class="credits">
-    Results courtesy of
+    Powered by
     <a href="https://thesaurus.com" style="color: #5c6370;"
     >thesaurus.com</a
     > and <a href="https://abbreviations.com/" style="color: #5c6370;"
     >abbreviations.com</a
     >
-    <p class="abbreviation">⬤ Red results are abbreviations</p>
+    <p class="abbreviation">⬤ Abbreviations in red</p>
 </div>
 </body>
 </html>
