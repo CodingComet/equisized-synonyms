@@ -1,7 +1,7 @@
 from abc import abstractmethod
 
 import requests
-from bs4 import BeautifulSoup
+from lxml import html
 from typing import List, Tuple, Dict
 import dill as pickle
 
@@ -9,13 +9,16 @@ MIN_ABBR_LEN = 2
 
 
 def request_http(url: str) -> Tuple[int, bytes]:
-    response = requests.get(url)
+    headers = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36'
+    }
+
+    response = requests.get(url, headers=headers)
 
     return (response.status_code, response.content)
 
 
 class LazyFetcher:
-    soup: BeautifulSoup
     cache_file_name: str
     local_cache: Dict[str, List[str]]
 
@@ -57,14 +60,13 @@ class Thesaurus(LazyFetcher):
         if status == 404:
             return []
 
-        Thesaurus.soup = BeautifulSoup(content, 'html.parser')
+        tree = html.fromstring(content)
 
-        # get word container
-        div = Thesaurus.soup.find('div', attrs={'data-testid': 'word-grid-container'})
-        synonyms_element = div.find('ul').children  # get synonyms element
+        # Fetched on 2024-11-8
+        xpath = '//*[@id="root"]/div/main/div[2]/div[2]/div[2]/section/div[1]/div[2]/div[2]//a/text()' 
+        elements = tree.xpath(xpath)
 
-        return [synonym.find('a').text.strip()  # extract synonym element and strip the text
-                for synonym in synonyms_element] + [word]  # create a synonym list out of element
+        return elements
 
 
 class Abbreviations(LazyFetcher):
@@ -77,9 +79,11 @@ class Abbreviations(LazyFetcher):
         if status == 404:
             return []
 
-        self.soup = BeautifulSoup(content, 'html.parser')
+        tree = html.fromstring(content)
 
-        # get word container
-        abbr_elemets_ = self.soup.find_all('td', attrs={'class': 'tal tm fsl'})
-        abbrs_ = (next(abbr.children).text.lower().replace('.', '') for abbr in abbr_elemets_)
+        # Fetched on 2024-11-8
+        xpath = '//*[@id="content-body"]/div[1]/div[3]/div/table//*[contains(@class, "tal tm fsl")]/a/text()' 
+        elements = tree.xpath(xpath)
+        abbrs_ = [abbr.lower().replace('.', '') for abbr in elements]
+
         return list({abbr for abbr in abbrs_ if MIN_ABBR_LEN <= len(abbr) and abbr != word.lower()})
