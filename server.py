@@ -34,7 +34,7 @@ def result(words: str):
     include_partial_rows: bool = request.args.get('hide_partial_rows') == 'false'
 
     # get synonyms
-    sorted_synonyms = {word: get_synonyms(word, include_spaces) for word in words}
+    sorted_synonyms = {word: get_synonyms(word, include_spaces) + [word] for word in words}
 
     # get abbreviations for each single synonyms of each word
     abbreviations = {word: sorted(
