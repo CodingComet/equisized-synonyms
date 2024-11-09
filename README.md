@@ -1,6 +1,6 @@
 # Equisized Synonyms
 
-TL;DR: Try it [here](https://equisized-synonyms.herokuapp.com/).
+TL;DR: Try it [here](https://equisized-synonyms-1.onrender.com/).
 
 ## Naming is Hard!
 
@@ -16,10 +16,10 @@ They are closely related words but unfortunately do not have the same length!
 ## The Naming Tool You Always Wanted But Never Knew Existed
 Given a list of words, generates a table where each column consists of the synonyms of each of the words and the rows are the respective number of letters.  You are then free to chose an equi-sized pair.
 
-Try it [here](https://equisized-synonyms.herokuapp.com/).
+Try it [here](https://equisized-synonyms-1.onrender.com/).
 
 ## Credits
-Hosted on a free [Heroku](https://heroku.com) intance - so go easy.  
+Hosted on a free [Render](render.com) intance - so go easy.  
 Word lists from [thesaurus.com](https://thesaurus.com)
 
 
