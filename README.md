@@ -19,7 +19,7 @@ Given a list of words, generates a table where each column consists of the synon
 Try it [here](https://equisized-synonyms-1.onrender.com/).
 
 ## Credits
-Hosted on a free [Render](render.com) intance - so go easy.  
+Hosted on a free [Render](https://render.com) intance - so go easy.  
 Word lists from [thesaurus.com](https://thesaurus.com)
 
 
